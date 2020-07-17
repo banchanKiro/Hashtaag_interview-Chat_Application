@@ -1,6 +1,6 @@
 {
   "name": "hashtaag-chat",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A simple chat application for the Hashtaag interview.",
   "main": "server.js",
   "scripts": {
