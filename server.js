@@ -4,14 +4,13 @@ const express = require('express');
 const sockerio = require('socket.io');
 const formatMessage = require('./utils/messages');
 const { userJoin, getCurrentUser, userLeave, getUsers } = require('./utils/users');
-const { format } = require('path');
 
 const app = express();
 const server = http.createServer(app);
 const io = sockerio(server);
 const botName = 'HashBot';
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 io.on('connection', socket => {
   socket.on('userJoin', (username) => {
@@ -27,23 +26,6 @@ io.on('connection', socket => {
     socket.broadcast
       .emit('message', {message: formatMessage(botName, `${user.username} has joined the chat!`), chat: {id: 'General'}});
   });
-
-  // socket.on('joinRoom', ({ username, room }) => {
-  //   const user = userJoin(socket.id, username, room)
-    
-  //   socket.join(user.room);
-
-  //   socket.emit('message', formatMessage(botName, 'Welcome to Hashtaag Chat!'));
-    
-  //   socket.broadcast
-  //     .to(user.room)
-  //     .emit('message', formatMessage(botName, `${user.username} has joined the chat!`));
-
-  //   io.to(user.room).emit('roomUsers', {
-  //     room: user.room,
-  //     users: getUsers(user.room)
-  //   });
-  // })
 
   socket.on('requestChat', (chatee) => {
     const user = getCurrentUser(socket.id);
