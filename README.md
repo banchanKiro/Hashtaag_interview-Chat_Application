@@ -2,6 +2,8 @@
 
 A simple chat application for the Hashtaag interview assignment.
 
+Check out the [demo](https://hashtaag-chat-app-banchan.herokuapp.com/).
+
 # Overview
 
 Kindly create a chatbot using nodejs and sample front end application. Kindly consider the list of all inputs as mentioned below.
