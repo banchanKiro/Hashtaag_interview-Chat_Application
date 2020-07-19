@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux';
 import { socket } from '../socket';
 import actions from '../store/actionCreators';
@@ -18,6 +18,7 @@ export function ChatRoom ({
   users,
 }) {
   const [message, setMessage] = useState('');
+  const chatMessages = useRef(null)
   
   useEffect(() => {
     socket.on('userList', ({userList}) => {
@@ -27,7 +28,8 @@ export function ChatRoom ({
     socket.on('message', (data) => {
       authoriseChat(data.chat);
       updateCurrentChat(data.chat.id);
-      addMessage(data)
+      addMessage(data);
+      chatMessages.current.scrollTop = chatMessages.current.scrollHeight;
     }); 
 
     socket.on('authChat', ({chatee, message}) => {
@@ -143,7 +145,7 @@ export function ChatRoom ({
             ))}
           </ul>
         </div> 
-        <div className="chat-messages">
+        <div className="chat-messages" ref={chatMessages}>
           {chatList[currentChat.id].messages
               .map((message, index) => (
                 <div className="message" key={index}>
